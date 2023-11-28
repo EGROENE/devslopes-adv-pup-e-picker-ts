@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Section } from "./Components/Section";
+import { Dogs } from "./Components/Dogs";
 import { Requests } from "./api";
 import { Dog, Tab } from "./types";
 
@@ -14,14 +15,6 @@ export function App() {
   // setter to sectionContextValues
   const [activeTab, setActiveTab] = useState<Tab>("all-dogs");
 
-  let displayedDogs = allDogs; // Dogs.tsx will to access this (useContext in that file, just like in Section.tsx)
-  if (activeTab === "fav-dogs") {
-    displayedDogs = allDogs.filter((dog) => dog.isFavorite);
-  }
-  if (activeTab === "unfav-dogs") {
-    displayedDogs = allDogs.filter((dog) => !dog.isFavorite);
-  }
-
   useEffect(() => {
     Requests.getAllDogs()
       .then(setAllDogs)
@@ -32,14 +25,14 @@ export function App() {
     allDogs: Dog[];
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
+    activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
-    displayedDogs: Dog[];
   } = {
     allDogs,
     isLoading,
     setIsLoading,
+    activeTab,
     setActiveTab,
-    displayedDogs,
   };
 
   return (
@@ -52,6 +45,7 @@ export function App() {
       <SectionContext.Provider value={sectionContextValues}>
         <Section label={"Dogs: "}>
           {/* Logic to display Dogs (build this out) or CreateDogForm, based on value of activeTab */}
+          <Dogs />
         </Section>
       </SectionContext.Provider>
     </div>
