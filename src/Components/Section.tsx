@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
+import { SectionContext } from "../App";
 
 export const Section = ({
   label,
@@ -8,6 +9,16 @@ export const Section = ({
   label: string;
   children: ReactNode;
 }) => {
+  const sectionContextValues = useContext(SectionContext);
+
+  const favsCount: number = sectionContextValues.allDogs.filter(
+    (dog) => dog.isFavorite === true
+  ).length;
+
+  const unfavsCount: number = sectionContextValues.allDogs.filter(
+    (dog) => dog.isFavorite !== true
+  ).length;
+
   return (
     <section id="main-section">
       <div className="container-header">
@@ -20,7 +31,7 @@ export const Section = ({
               alert("click favorited");
             }}
           >
-            favorited ( {0} )
+            favorited ( {favsCount} )
           </div>
 
           {/* This should display the unfavorited count */}
@@ -30,7 +41,7 @@ export const Section = ({
               alert("click unfavorited");
             }}
           >
-            unfavorited ( {10} )
+            unfavorited ( {unfavsCount} )
           </div>
           <div
             className={`selector ${""}`}
