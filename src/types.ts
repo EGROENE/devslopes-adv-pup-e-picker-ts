@@ -9,3 +9,5 @@ export const dogSchema = z.object({
 });
 
 export type Dog = z.infer<typeof dogSchema>;
+
+export type Tab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "no-dogs";
