@@ -1,5 +1,10 @@
-const getAllDogs = () => {
-  // fill out method
+const getAllDogs = (): Promise<unknown> => {
+  return fetch("http://localhost:3000/dogs", {
+    method: "GET",
+    redirect: "follow",
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log("error", error));
 };
 
 const postDog = () => {
