@@ -3,6 +3,7 @@ import { Section } from "./Components/Section";
 import { Dogs } from "./Components/Dogs";
 import { Requests } from "./api";
 import { Dog, Tab } from "./types";
+import { CreateDogForm } from "./Components/CreateDogForm";
 
 export const SectionContext = createContext();
 
@@ -45,7 +46,7 @@ export function App() {
       <SectionContext.Provider value={sectionContextValues}>
         <Section label={"Dogs: "}>
           {/* Logic to display Dogs (build this out) or CreateDogForm, based on value of activeTab */}
-          <Dogs />
+          {activeTab === "no-dogs" ? <CreateDogForm /> : <Dogs />}
         </Section>
       </SectionContext.Provider>
     </div>
