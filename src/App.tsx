@@ -4,6 +4,7 @@ import { Dogs } from "./Components/Dogs";
 import { Requests } from "./api";
 import { Dog, Tab } from "./types";
 import { CreateDogForm } from "./Components/CreateDogForm";
+import toast from "react-hot-toast";
 
 export const SectionContext = createContext();
 
@@ -22,18 +23,34 @@ export function App() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  const refetchDogs = (): Promise<void> => {
+    return Requests.getAllDogs().then(setAllDogs);
+  };
+
+  // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)
+  const createNewDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<void> => {
+    return Requests.postDog(newDogCharacteristics)
+      .then(refetchDogs)
+      .then(() => {
+        toast.success(`${newDogCharacteristics.name} created!`);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   const sectionContextValues: {
     allDogs: Dog[];
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
+    createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
   } = {
     allDogs,
     isLoading,
     setIsLoading,
     activeTab,
     setActiveTab,
+    createNewDog,
   };
 
   return (
