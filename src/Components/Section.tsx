@@ -1,5 +1,6 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, Dispatch, SetStateAction } from "react";
 import { SectionContext } from "../App";
+import { Tab, Dog } from "../types";
 
 export const Section = ({
   label,
@@ -9,10 +10,16 @@ export const Section = ({
   label: string;
   children: ReactNode;
 }) => {
-  const sectionContextValues = useContext(SectionContext);
+  const sectionContextValues: {
+    allDogs: Dog[];
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
+    activeTab: Tab;
+    setActiveTab: Dispatch<SetStateAction<Tab>>;
+  } = useContext(SectionContext);
 
   const favsCount: number = sectionContextValues.allDogs.filter(
-    (dog) => dog.isFavorite === true
+    (dog: Dog) => dog.isFavorite === true
   ).length;
 
   const unfavsCount: number = sectionContextValues.allDogs.filter(
@@ -26,9 +33,17 @@ export const Section = ({
         <div className="selectors">
           {/* This should display the favorited count */}
           <div
-            className={`selector ${"active"}`}
+            className={
+              sectionContextValues.activeTab === "fav-dogs"
+                ? "selector active"
+                : "selector"
+            }
             onClick={() => {
-              alert("click favorited");
+              if (sectionContextValues.activeTab === "fav-dogs") {
+                sectionContextValues.setActiveTab("all-dogs");
+              } else {
+                sectionContextValues.setActiveTab("fav-dogs");
+              }
             }}
           >
             favorited ( {favsCount} )
@@ -36,17 +51,33 @@ export const Section = ({
 
           {/* This should display the unfavorited count */}
           <div
-            className={`selector ${""}`}
+            className={
+              sectionContextValues.activeTab === "unfav-dogs"
+                ? "selector active"
+                : "selector"
+            }
             onClick={() => {
-              alert("click unfavorited");
+              if (sectionContextValues.activeTab === "unfav-dogs") {
+                sectionContextValues.setActiveTab("all-dogs");
+              } else {
+                sectionContextValues.setActiveTab("unfav-dogs");
+              }
             }}
           >
             unfavorited ( {unfavsCount} )
           </div>
           <div
-            className={`selector ${""}`}
+            className={
+              sectionContextValues.activeTab === "no-dogs"
+                ? "selector active"
+                : "selector"
+            }
             onClick={() => {
-              alert("clicked create dog");
+              if (sectionContextValues.activeTab === "no-dogs") {
+                sectionContextValues.setActiveTab("all-dogs");
+              } else {
+                sectionContextValues.setActiveTab("no-dogs");
+              }
             }}
           >
             create dog
