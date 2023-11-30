@@ -24,6 +24,7 @@ export function App() {
   }, []);
 
   const refetchDogs = (): Promise<void> => {
+    // Return this (returns promise), so that .then, etc. can be called
     return Requests.getAllDogs().then(setAllDogs);
   };
 
@@ -37,6 +38,16 @@ export function App() {
       .finally(() => setIsLoading(false));
   };
 
+  const deleteDogAction = (dog: Dog): Promise<string> => {
+    setIsLoading(true);
+    return Requests.deleteDogRequest(dog.id).then(() =>
+      Requests.getAllDogs()
+        .then(refetchDogs)
+        .then(() => toast.error(`${dog.name} removed`))
+        .finally(() => setIsLoading(false))
+    );
+  };
+
   const sectionContextValues: {
     allDogs: Dog[];
     isLoading: boolean;
@@ -44,6 +55,7 @@ export function App() {
     activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
     createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
+    deleteDogAction: (dog: Dog) => Promise<string>;
   } = {
     allDogs,
     isLoading,
@@ -51,6 +63,7 @@ export function App() {
     activeTab,
     setActiveTab,
     createNewDog,
+    deleteDogAction,
   };
 
   return (

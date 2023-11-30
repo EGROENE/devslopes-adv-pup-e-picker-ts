@@ -34,8 +34,17 @@ const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<unknown> => {
     }
   });
 };
-const deleteDogRequest = () => {
-  // fill out method
+const deleteDogRequest = (id: number) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-type", "application/json");
+
+  return fetch(`http://localhost:3000/dogs/${id}`, {
+    method: "DELETE",
+    headers: myHeaders,
+    redirect: "follow",
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log("error", error));
 };
 
 const patchFavoriteForDog = () => {

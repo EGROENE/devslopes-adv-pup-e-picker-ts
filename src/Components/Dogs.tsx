@@ -14,6 +14,7 @@ export const Dogs = () =>
       setIsLoading: Dispatch<SetStateAction<boolean>>;
       activeTab: Tab;
       setActiveTab: Dispatch<SetStateAction<Tab>>;
+      deleteDogAction: (dog: Dog) => Promise<string>;
     } = useContext(SectionContext);
 
     let displayedDogs = sectionContextValues.allDogs;
@@ -28,6 +29,7 @@ export const Dogs = () =>
       <>
         {displayedDogs.map((dog: Dog) => (
           <DogCard
+            key={dog.id}
             dog={{
               id: dog.id,
               image: dog.image,
@@ -35,6 +37,7 @@ export const Dogs = () =>
               isFavorite: dog.isFavorite,
               name: dog.name,
             }}
+            onTrashIconClick={() => sectionContextValues.deleteDogAction(dog)}
           />
         ))}
       </>
