@@ -14,7 +14,7 @@ export const Dogs = () =>
       setIsLoading: Dispatch<SetStateAction<boolean>>;
       activeTab: Tab;
       setActiveTab: Dispatch<SetStateAction<Tab>>;
-      toggleFavoriteAction: (dog: Dog) => Promise<void>;
+      toggleFavoriteAction: (dog: Dog) => void;
       deleteDogAction: (dog: Dog) => Promise<string>;
     } = useContext(SectionContext);
 
