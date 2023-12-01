@@ -14,6 +14,7 @@ export const Dogs = () =>
       setIsLoading: Dispatch<SetStateAction<boolean>>;
       activeTab: Tab;
       setActiveTab: Dispatch<SetStateAction<Tab>>;
+      toggleFavoriteAction: (dog: Dog) => Promise<void>;
       deleteDogAction: (dog: Dog) => Promise<string>;
     } = useContext(SectionContext);
 
@@ -38,6 +39,9 @@ export const Dogs = () =>
               name: dog.name,
             }}
             onTrashIconClick={() => sectionContextValues.deleteDogAction(dog)}
+            onEmptyHeartClick={() => sectionContextValues.toggleFavoriteAction(dog)}
+            onHeartClick={() => sectionContextValues.toggleFavoriteAction(dog)}
+            isLoading={sectionContextValues.isLoading}
           />
         ))}
       </>

@@ -38,6 +38,15 @@ export function App() {
       .finally(() => setIsLoading(false));
   };
 
+  const toggleFavoriteAction = (dog: Dog): Promise<void> => {
+    setIsLoading(true);
+    return Requests.patchFavoriteForDog(dog).then(() =>
+      Requests.getAllDogs()
+        .then(refetchDogs)
+        .finally(() => setIsLoading(false))
+    );
+  };
+
   const deleteDogAction = (dog: Dog): Promise<string> => {
     setIsLoading(true);
     return Requests.deleteDogRequest(dog.id).then(() =>
@@ -48,6 +57,7 @@ export function App() {
     );
   };
 
+  // Passed to SectionContext.Provider as its value
   const sectionContextValues: {
     allDogs: Dog[];
     isLoading: boolean;
@@ -55,6 +65,7 @@ export function App() {
     activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
     createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
+    toggleFavoriteAction: (dog: Dog) => Promise<void>;
     deleteDogAction: (dog: Dog) => Promise<string>;
   } = {
     allDogs,
@@ -63,6 +74,7 @@ export function App() {
     activeTab,
     setActiveTab,
     createNewDog,
+    toggleFavoriteAction,
     deleteDogAction,
   };
 

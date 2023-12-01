@@ -47,8 +47,24 @@ const deleteDogRequest = (id: number) => {
     .catch((error) => console.log("error", error));
 };
 
-const patchFavoriteForDog = () => {
-  // fill out method
+const patchFavoriteForDog = (dog: Dog): Promise<unknown> => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const newValue: boolean = !dog.isFavorite ? true : false;
+
+  const raw = JSON.stringify({
+    "isFavorite": newValue,
+  });
+
+  return fetch(`http://localhost:3000/dogs/${dog.id}?Content-type=application/json`, {
+    method: "PATCH",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log("error", error));
 };
 
 export const Requests = {
