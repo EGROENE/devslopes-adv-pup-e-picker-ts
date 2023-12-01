@@ -34,7 +34,7 @@ const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<unknown> => {
     }
   });
 };
-const deleteDogRequest = (id: number) => {
+const deleteDogRequest = (id: number): Promise<unknown> => {
   const myHeaders = new Headers();
   myHeaders.append("Content-type", "application/json");
 
