@@ -70,13 +70,29 @@ export function App() {
   };
 
   const deleteDogAction = (dog: Dog): Promise<string> => {
-    setIsLoading(true);
+    // OPTIMISTIC WAY
+    // Why does filtering out the nonmatches delete the entire fucking array??
+    setAllDogs(
+      allDogs.filter((dogInAllDogs) => {
+        dog.name === dogInAllDogs.name;
+      })
+    );
+
+    /* Requests.deleteDogRequest(dog.id).then(() =>
+      Requests.getAllDogs()
+        .then(refetchDogs)
+        .then(() => toast.error(`${dog.name} removed`))
+        .finally(() => setIsLoading(false))
+    ); */
+
+    // PESSIMISTIC WAY
+    /* setIsLoading(true);
     return Requests.deleteDogRequest(dog.id).then(() =>
       Requests.getAllDogs()
         .then(refetchDogs)
         .then(() => toast.error(`${dog.name} removed`))
         .finally(() => setIsLoading(false))
-    );
+    ); */
   };
 
   // Passed to SectionContext.Provider as its value
