@@ -38,13 +38,35 @@ export function App() {
       .finally(() => setIsLoading(false));
   };
 
-  const toggleFavoriteAction = (dog: Dog): Promise<void> => {
-    setIsLoading(true);
+  const toggleFavoriteAction = (dog: Dog) => {
+    // OPTIMISTIC WAY
+    const newIsFavoriteValue: boolean = !dog.isFavorite ? true : false;
+
+    setAllDogs(
+      allDogs.map((dogInAllDogsArr) =>
+        dog.id === dogInAllDogsArr.id
+          ? { ...dogInAllDogsArr, isFavorite: newIsFavoriteValue }
+          : dogInAllDogsArr
+      )
+    );
+
+    Requests.patchFavoriteForDog(dog, { isFavorite: newIsFavoriteValue }).then(
+      (response) => {
+        if (!response.ok) {
+          setAllDogs(allDogs);
+        } else {
+          return;
+        }
+      }
+    );
+
+    // PESSIMISTIC WAY
+    /* setIsLoading(true);
     return Requests.patchFavoriteForDog(dog).then(() =>
       Requests.getAllDogs()
         .then(refetchDogs)
         .finally(() => setIsLoading(false))
-    );
+    ); */
   };
 
   const deleteDogAction = (dog: Dog): Promise<string> => {

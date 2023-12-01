@@ -47,8 +47,24 @@ const deleteDogRequest = (id: number): Promise<unknown> => {
     .catch((error) => console.log("error", error));
 };
 
-const patchFavoriteForDog = (dog: Dog): Promise<unknown> => {
+const patchFavoriteForDog = (dog: Dog, raw: { isFavorite: boolean }) => {
+  // OPTIMISTIC WAY (w/ 2nd param of {isFavorite: boolean})
   const myHeaders = new Headers();
+  myHeaders.append("Content-type", "application/json");
+
+  const newBody = JSON.stringify(raw);
+
+  fetch(`http://localhost:3000/dogs/${dog.id}?Content-type=application/json`, {
+    method: "PATCH",
+    headers: myHeaders,
+    body: newBody,
+    redirect: "follow",
+  })
+    .then((response) => response.json())
+    .catch((error) => console.log("error", error));
+
+  // PESSIMISTIC WAY (w/o 2nd param of {isFavorite: boolean})
+  /* const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   const newValue: boolean = !dog.isFavorite ? true : false;
@@ -64,7 +80,7 @@ const patchFavoriteForDog = (dog: Dog): Promise<unknown> => {
     redirect: "follow",
   })
     .then((response) => response.json())
-    .catch((error) => console.log("error", error));
+    .catch((error) => console.log("error", error)); */
 };
 
 export const Requests = {
