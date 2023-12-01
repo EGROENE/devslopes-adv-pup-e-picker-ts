@@ -38,10 +38,10 @@ export function App() {
       .finally(() => setIsLoading(false));
   };
 
-  const toggleFavoriteAction = (dog: Dog) => {
-    // OPTIMISTIC WAY
+  const toggleFavoriteAction = (dog: Dog): void => {
     const newIsFavoriteValue: boolean = !dog.isFavorite ? true : false;
 
+    // Set local state allDogs to array, changing only the isFavorite value of the selected dog:
     setAllDogs(
       allDogs.map((dogInAllDogsArr) =>
         dog.id === dogInAllDogsArr.id
@@ -50,49 +50,27 @@ export function App() {
       )
     );
 
-    Requests.patchFavoriteForDog(dog, { isFavorite: newIsFavoriteValue }).then(
-      (response) => {
+    // Make PATCH request to change isFavorite value of selected dog in the DB
+    // If the request fails, revert to original value; else, do nothing
+    Requests.patchFavoriteForDog(dog, { isFavorite: newIsFavoriteValue })
+      .then((response) => {
         if (!response.ok) {
-          setAllDogs(allDogs);
+          setAllDogs(allDogs); // Why is allDogs here equal to original form, not what is set above in this function?
         } else {
-          return;
+          return; // What's the point of return here?
         }
-      }
-    );
-
-    // PESSIMISTIC WAY
-    /* setIsLoading(true);
-    return Requests.patchFavoriteForDog(dog).then(() =>
-      Requests.getAllDogs()
-        .then(refetchDogs)
-        .finally(() => setIsLoading(false))
-    ); */
+      })
+      .catch((error) => console.log(error));
   };
 
   const deleteDogAction = (dog: Dog): Promise<string> => {
-    // OPTIMISTIC WAY
-    // Why does filtering out the nonmatches delete the entire fucking array??
-    setAllDogs(
-      allDogs.filter((dogInAllDogs) => {
-        dog.name === dogInAllDogs.name;
-      })
-    );
-
-    /* Requests.deleteDogRequest(dog.id).then(() =>
-      Requests.getAllDogs()
-        .then(refetchDogs)
-        .then(() => toast.error(`${dog.name} removed`))
-        .finally(() => setIsLoading(false))
-    ); */
-
-    // PESSIMISTIC WAY
-    /* setIsLoading(true);
+    setIsLoading(true);
     return Requests.deleteDogRequest(dog.id).then(() =>
       Requests.getAllDogs()
         .then(refetchDogs)
         .then(() => toast.error(`${dog.name} removed`))
         .finally(() => setIsLoading(false))
-    ); */
+    );
   };
 
   // Passed to SectionContext.Provider as its value
@@ -103,7 +81,7 @@ export function App() {
     activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
     createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
-    toggleFavoriteAction: (dog: Dog) => Promise<void>;
+    toggleFavoriteAction: (dog: Dog) => void;
     deleteDogAction: (dog: Dog) => Promise<string>;
   } = {
     allDogs,
