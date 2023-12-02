@@ -15,7 +15,7 @@ export const Dogs = () =>
       activeTab: Tab;
       setActiveTab: Dispatch<SetStateAction<Tab>>;
       toggleFavoriteAction: (dog: Dog) => void;
-      deleteDogAction: (dog: Dog) => Promise<string>;
+      deleteDogAction: (dog: Dog) => void;
     } = useContext(SectionContext);
 
     let displayedDogs = sectionContextValues.allDogs;

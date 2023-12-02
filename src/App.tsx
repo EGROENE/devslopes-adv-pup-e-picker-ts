@@ -63,14 +63,18 @@ export function App() {
       .catch((error) => console.log(error));
   };
 
-  const deleteDogAction = (dog: Dog): Promise<string> => {
-    setIsLoading(true);
-    return Requests.deleteDogRequest(dog.id).then(() =>
-      Requests.getAllDogs()
-        .then(refetchDogs)
-        .then(() => toast.error(`${dog.name} removed`))
-        .finally(() => setIsLoading(false))
-    );
+  const deleteDogAction = (dog: Dog): void => {
+    setAllDogs(allDogs.filter((dogInAllDogsArr) => dog.name !== dogInAllDogsArr.name));
+
+    Requests.deleteDogRequest(dog.id)
+      .then((response) => {
+        if (!response.ok) {
+          setAllDogs(allDogs);
+        } else {
+          return;
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   // Passed to SectionContext.Provider as its value
@@ -82,7 +86,7 @@ export function App() {
     setActiveTab: Dispatch<SetStateAction<Tab>>;
     createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
     toggleFavoriteAction: (dog: Dog) => void;
-    deleteDogAction: (dog: Dog) => Promise<string>;
+    deleteDogAction: (dog: Dog) => void;
   } = {
     allDogs,
     isLoading,
