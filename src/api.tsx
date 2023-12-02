@@ -1,7 +1,9 @@
 import { Dog } from "./types";
 
+const serverURL = "http://localhost:3000/dogs";
+
 const getAllDogs = (): Promise<unknown> => {
-  return fetch("http://localhost:3000/dogs", {
+  return fetch(serverURL, {
     method: "GET",
     redirect: "follow",
   })
@@ -21,7 +23,7 @@ const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<unknown> => {
     "id": 0,
   });
 
-  return fetch("http://localhost:3000/dogs", {
+  return fetch(serverURL, {
     method: "POST",
     headers: myHeaders,
     body: raw,
@@ -38,7 +40,7 @@ const deleteDogRequest = (id: number): Promise<Response> => {
   const myHeaders = new Headers();
   myHeaders.append("Content-type", "application/json");
 
-  return fetch(`http://localhost:3000/dogs/${id}`, {
+  return fetch(`${serverURL}/${id}`, {
     method: "DELETE",
     headers: myHeaders,
     redirect: "follow",
@@ -54,7 +56,7 @@ const patchFavoriteForDog = (
 
   const newBody = JSON.stringify(raw);
 
-  return fetch(`http://localhost:3000/dogs/${dog.id}?Content-type=application/json`, {
+  return fetch(`${serverURL}/${dog.id}?Content-type=application/json`, {
     method: "PATCH",
     headers: myHeaders,
     body: newBody,
