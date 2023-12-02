@@ -71,7 +71,7 @@ export function App() {
         if (!response.ok) {
           setAllDogs(allDogs);
         } else {
-          return;
+          toast.error(`${dog.name} deleted`);
         }
       })
       .catch((error) => console.log(error));
