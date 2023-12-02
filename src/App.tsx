@@ -64,7 +64,7 @@ export function App() {
   };
 
   const deleteDogAction = (dog: Dog): void => {
-    setAllDogs(allDogs.filter((dogInAllDogsArr) => dog.name !== dogInAllDogsArr.name));
+    setAllDogs(allDogs.filter((dogInAllDogsArr) => dog.id !== dogInAllDogsArr.id));
 
     Requests.deleteDogRequest(dog.id)
       .then((response) => {
