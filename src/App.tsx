@@ -56,6 +56,11 @@ export function App() {
       .then((response) => {
         if (!response.ok) {
           setAllDogs(allDogs); // Why is allDogs here equal to original form, not what is set above in this function?
+          toast.error(
+            newIsFavoriteValue === true
+              ? "Could not add to favorites. Please try again."
+              : "Could not remove from favorites. Please try again."
+          );
         } else {
           return; // What's the point of return here?
         }
