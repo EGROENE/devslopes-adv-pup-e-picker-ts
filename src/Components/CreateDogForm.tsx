@@ -8,6 +8,7 @@ export const CreateDogForm = () =>
   // no props allowed
   {
     const sectionContextValues: {
+      isLoading: boolean;
       refetchDogs: () => void;
       createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
       setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -37,6 +38,7 @@ export const CreateDogForm = () =>
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
+          sectionContextValues.setIsLoading(true);
           sectionContextValues
             .createNewDog(newDogCharacteristics)
             .then((response) => {
@@ -50,18 +52,21 @@ export const CreateDogForm = () =>
                 setNewDogImage(defaultImage);
               }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.log(error))
+            .finally(() => sectionContextValues.setIsLoading(false));
         }}
       >
         <h4>Create a New Dog</h4>
         <label htmlFor="name">Dog Name</label>
         <input
+          disabled={sectionContextValues.isLoading}
           type="text"
           value={newDogName}
           onChange={(e) => setNewDogName(e.target.value)}
         />
         <label htmlFor="description">Dog Description</label>
         <textarea
+          disabled={sectionContextValues.isLoading}
           name=""
           id=""
           cols={80}
@@ -77,7 +82,11 @@ export const CreateDogForm = () =>
         >
           {Object.entries(dogPictures).map(([label, pictureValue]) => {
             return (
-              <option value={pictureValue} key={pictureValue}>
+              <option
+                disabled={sectionContextValues.isLoading}
+                value={pictureValue}
+                key={pictureValue}
+              >
                 {label}
               </option>
             );

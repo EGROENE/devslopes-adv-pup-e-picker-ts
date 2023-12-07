@@ -64,14 +64,23 @@ body {
   color: black;
   font-size: 30px;
   margin-left: 10px;
+  background-color: white;
 }
 
-#create-dog-form input:disabled {
-  opacity: 0.8;
+#create-dog-form textarea {
+  color: black;
 }
 
-#create-dog-form textarea:disabled {
+#create-dog-form textarea,
+#create-dog-form select {
+  background-color: white;
+}
+
+#create-dog-form input:disabled,
+#create-dog-form textarea:disabled,
+#create-dog-form select:disabled {
   opacity: 0.8;
+  cursor: not-allowed;
 }
 
 #create-dog-form select {
