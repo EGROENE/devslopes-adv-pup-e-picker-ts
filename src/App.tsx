@@ -23,19 +23,16 @@ export function App() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const refetchDogs = (): Promise<void> => {
+  const refetchDogs = (): void => {
     // Return this (returns promise), so that .then, etc. can be called
-    return Requests.getAllDogs().then(setAllDogs);
+    Requests.getAllDogs()
+      .then(setAllDogs)
+      .catch((error) => console.log(error));
   };
 
   // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)
-  const createNewDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<void> => {
-    return Requests.postDog(newDogCharacteristics)
-      .then(refetchDogs)
-      .then(() => {
-        toast.success(`${newDogCharacteristics.name} created!`);
-      })
-      .finally(() => setIsLoading(false));
+  const createNewDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<Response> => {
+    return Requests.postDog(newDogCharacteristics);
   };
 
   const toggleFavoriteAction = (dog: Dog): void => {
@@ -89,9 +86,10 @@ export function App() {
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     activeTab: Tab;
     setActiveTab: Dispatch<SetStateAction<Tab>>;
-    createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<void>;
+    createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
     toggleFavoriteAction: (dog: Dog) => void;
     deleteDogAction: (dog: Dog) => void;
+    refetchDogs: () => void;
   } = {
     allDogs,
     isLoading,
@@ -101,6 +99,7 @@ export function App() {
     createNewDog,
     toggleFavoriteAction,
     deleteDogAction,
+    refetchDogs,
   };
 
   return (

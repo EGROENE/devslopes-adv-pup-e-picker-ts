@@ -11,7 +11,7 @@ const getAllDogs = (): Promise<unknown> => {
     .catch((error) => console.log("error", error));
 };
 
-const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<unknown> => {
+const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<Response> => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -28,12 +28,6 @@ const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<unknown> => {
     headers: myHeaders,
     body: raw,
     redirect: "follow",
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error("Could not create dog. Please try again.");
-    } else {
-      return response.json();
-    }
   });
 };
 const deleteDogRequest = (id: number): Promise<Response> => {
