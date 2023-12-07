@@ -32,6 +32,12 @@ export const CreateDogForm = () =>
       isFavorite: false,
     };
 
+    const resetForm = (): void => {
+      setNewDogName("");
+      setNewDogDescription("");
+      setNewDogImage(defaultImage);
+    };
+
     return (
       <form
         action=""
@@ -47,9 +53,7 @@ export const CreateDogForm = () =>
               } else {
                 sectionContextValues.refetchDogs();
                 toast.success(`${newDogCharacteristics.name} created!`);
-                setNewDogName("");
-                setNewDogDescription("");
-                setNewDogImage(defaultImage);
+                resetForm();
               }
             })
             .catch((error) => console.log(error))
