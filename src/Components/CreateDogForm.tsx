@@ -1,18 +1,12 @@
-import { useState, useContext, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { dogPictures } from "../dog-pictures";
-import { SectionContext } from "../App";
-import { Dog } from "../types";
 import toast from "react-hot-toast";
+import { useSectionProvider } from "../sectionProvider";
 
 export const CreateDogForm = () =>
   // no props allowed
   {
-    const sectionContextValues: {
-      isLoading: boolean;
-      refetchDogs: () => void;
-      createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
-      setIsLoading: Dispatch<SetStateAction<boolean>>;
-    } = useContext(SectionContext);
+    const { isLoading, setIsLoading, createNewDog, refetchDogs } = useSectionProvider();
 
     const defaultImage = dogPictures.BlueHeeler;
 
@@ -44,33 +38,32 @@ export const CreateDogForm = () =>
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
-          sectionContextValues.setIsLoading(true);
-          sectionContextValues
-            .createNewDog(newDogCharacteristics)
+          setIsLoading(true);
+          createNewDog(newDogCharacteristics)
             .then((response) => {
               if (!response.ok) {
                 toast.error("Couldn't create dog. Please try again.");
               } else {
-                sectionContextValues.refetchDogs();
+                refetchDogs();
                 toast.success(`${newDogCharacteristics.name} created!`);
                 resetForm();
               }
             })
             .catch((error) => console.log(error))
-            .finally(() => sectionContextValues.setIsLoading(false));
+            .finally(() => setIsLoading(false));
         }}
       >
         <h4>Create a New Dog</h4>
         <label htmlFor="name">Dog Name</label>
         <input
-          disabled={sectionContextValues.isLoading}
+          disabled={isLoading}
           type="text"
           value={newDogName}
           onChange={(e) => setNewDogName(e.target.value)}
         />
         <label htmlFor="description">Dog Description</label>
         <textarea
-          disabled={sectionContextValues.isLoading}
+          disabled={isLoading}
           name=""
           id=""
           cols={80}
@@ -86,11 +79,7 @@ export const CreateDogForm = () =>
         >
           {Object.entries(dogPictures).map(([label, pictureValue]) => {
             return (
-              <option
-                disabled={sectionContextValues.isLoading}
-                value={pictureValue}
-                key={pictureValue}
-              >
+              <option disabled={isLoading} value={pictureValue} key={pictureValue}>
                 {label}
               </option>
             );

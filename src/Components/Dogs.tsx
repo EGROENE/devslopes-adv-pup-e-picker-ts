@@ -1,29 +1,21 @@
 // Right now these dogs are constant, but in reality we should be getting these from our server
 // Todo: Refactor to get rid of props (THERE SHOULD BE NO PROPS DRILLING ON THIS COMPONENT)
-import { useContext, Dispatch, SetStateAction } from "react";
-import { SectionContext } from "../App";
 import { DogCard } from "./DogCard";
-import { Dog, Tab } from "../types";
+import { Dog } from "../types";
+import { useSectionProvider } from "../sectionProvider";
 
 export const Dogs = () =>
   // no props allowed
   {
-    const sectionContextValues: {
-      allDogs: Dog[];
-      isLoading: boolean;
-      setIsLoading: Dispatch<SetStateAction<boolean>>;
-      activeTab: Tab;
-      setActiveTab: Dispatch<SetStateAction<Tab>>;
-      toggleFavoriteAction: (dog: Dog) => void;
-      deleteDogAction: (dog: Dog) => void;
-    } = useContext(SectionContext);
+    const { allDogs, activeTab, deleteDogAction, toggleFavoriteAction, isLoading } =
+      useSectionProvider();
 
-    let displayedDogs = sectionContextValues.allDogs;
-    if (sectionContextValues.activeTab === "fav-dogs") {
-      displayedDogs = sectionContextValues.allDogs.filter((dog) => dog.isFavorite);
+    let displayedDogs = allDogs;
+    if (activeTab === "fav-dogs") {
+      displayedDogs = allDogs.filter((dog) => dog.isFavorite);
     }
-    if (sectionContextValues.activeTab === "unfav-dogs") {
-      displayedDogs = sectionContextValues.allDogs.filter((dog) => !dog.isFavorite);
+    if (activeTab === "unfav-dogs") {
+      displayedDogs = allDogs.filter((dog) => !dog.isFavorite);
     }
 
     return (
@@ -38,10 +30,10 @@ export const Dogs = () =>
               isFavorite: dog.isFavorite,
               name: dog.name,
             }}
-            onTrashIconClick={() => sectionContextValues.deleteDogAction(dog)}
-            onEmptyHeartClick={() => sectionContextValues.toggleFavoriteAction(dog)}
-            onHeartClick={() => sectionContextValues.toggleFavoriteAction(dog)}
-            isLoading={sectionContextValues.isLoading}
+            onTrashIconClick={() => deleteDogAction(dog)}
+            onEmptyHeartClick={() => toggleFavoriteAction(dog)}
+            onHeartClick={() => toggleFavoriteAction(dog)}
+            isLoading={isLoading}
           />
         ))}
       </>

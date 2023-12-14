@@ -21,14 +21,11 @@ type TSectionContext = {
   toggleFavoriteAction: (dog: Dog) => void;
   deleteDogAction: (dog: Dog) => void;
   refetchDogs: () => void;
-  SectionProvider: ({ children }: { children: ReactNode }) => JSX.Element;
 };
 
 const SectionContext = createContext<TSectionContext | null>(null);
 
 export const SectionProvider = ({ children }: { children: ReactNode }) => {
-  //const [value, setValue] = useState(0);
-
   const [allDogs, setAllDogs] = useState<Dog[]>([]);
 
   // state & setter to sectionContextValues
@@ -122,7 +119,6 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    // <SectionContext.Provider value={{ value, setValue }}>
     <SectionContext.Provider value={sectionContextValues}>
       {children}
     </SectionContext.Provider>
@@ -130,7 +126,7 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useSectionProvider = () => {
-  const context = useContext<TSectionContext | null>(SectionContext);
+  const context = useContext<TSectionContext | null>(SectionContext); // Why is this null?
 
   // If context is null, it's being used in wrong place
   if (!context) {
