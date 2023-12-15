@@ -2,13 +2,13 @@
 // Todo: Refactor to get rid of props (THERE SHOULD BE NO PROPS DRILLING ON THIS COMPONENT)
 import { DogCard } from "./DogCard";
 import { Dog } from "../types";
-import { useSectionProvider } from "../sectionProvider";
+import { useSectionContext } from "../useSectionContext";
 
 export const Dogs = () =>
   // no props allowed
   {
     const { allDogs, activeTab, deleteDogAction, toggleFavoriteAction, isLoading } =
-      useSectionProvider();
+      useSectionContext();
 
     let displayedDogs = allDogs;
     if (activeTab === "fav-dogs") {

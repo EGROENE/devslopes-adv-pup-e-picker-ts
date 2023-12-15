@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { dogPictures } from "../dog-pictures";
 import toast from "react-hot-toast";
-import { useSectionProvider } from "../sectionProvider";
+import { useSectionContext } from "../useSectionContext";
 
 export const CreateDogForm = () =>
   // no props allowed
   {
-    const { isLoading, setIsLoading, createNewDog, refetchDogs } = useSectionProvider();
+    const { isLoading, setIsLoading, createNewDog, refetchDogs } = useSectionContext();
 
     const defaultImage = dogPictures.BlueHeeler;
 

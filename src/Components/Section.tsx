@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Dog } from "../types";
-import { useSectionProvider } from "../sectionProvider";
+import { useSectionContext } from "../useSectionContext";
 
 export const Section = ({
   label,
@@ -10,7 +10,7 @@ export const Section = ({
   label: string;
   children: ReactNode;
 }) => {
-  const { allDogs, activeTab, setActiveTab } = useSectionProvider();
+  const { allDogs, activeTab, setActiveTab } = useSectionContext();
 
   const favsCount: number = allDogs.filter((dog: Dog) => dog.isFavorite === true).length;
 

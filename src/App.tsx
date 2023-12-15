@@ -1,20 +1,18 @@
 import { Section } from "./Components/Section";
 import { Dogs } from "./Components/Dogs";
 import { CreateDogForm } from "./Components/CreateDogForm";
-import { useSectionProvider, SectionProvider } from "./sectionProvider";
+import { useSectionContext } from "./useSectionContext";
 
 export function App() {
-  const { activeTab } = useSectionProvider();
+  const { activeTab } = useSectionContext();
   return (
     <div className="App" style={{ backgroundColor: "skyblue" }}>
       <header>
         <h1>pup-e-picker (Functional)</h1>
       </header>
-      <SectionProvider>
-        <Section label={"Dogs: "}>
-          {activeTab === "no-dogs" ? <CreateDogForm /> : <Dogs />}
-        </Section>
-      </SectionProvider>
+      <Section label={"Dogs: "}>
+        {activeTab === "no-dogs" ? <CreateDogForm /> : <Dogs />}
+      </Section>
     </div>
   );
 }

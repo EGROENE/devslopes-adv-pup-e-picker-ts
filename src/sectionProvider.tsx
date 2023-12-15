@@ -5,13 +5,12 @@ import {
   useState,
   useEffect,
   createContext,
-  useContext,
 } from "react";
 import { Dog, Tab } from "./types";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
 
-type TSectionContext = {
+export type TSectionContext = {
   allDogs: Dog[];
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +22,7 @@ type TSectionContext = {
   refetchDogs: () => void;
 };
 
-const SectionContext = createContext<TSectionContext | null>(null);
+export const SectionContext = createContext<TSectionContext | null>(null);
 
 export const SectionProvider = ({ children }: { children: ReactNode }) => {
   const [allDogs, setAllDogs] = useState<Dog[]>([]);
@@ -41,7 +40,6 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const refetchDogs = (): void => {
-    // Return this (returns promise), so that .then, etc. can be called
     Requests.getAllDogs()
       .then(setAllDogs)
       .catch((error) => console.log(error));
@@ -123,14 +121,4 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </SectionContext.Provider>
   );
-};
-
-export const useSectionProvider = () => {
-  const context = useContext<TSectionContext | null>(SectionContext); // Why is this null?
-
-  // If context is null, it's being used in wrong place
-  if (!context) {
-    throw new Error("Must use useSectionProvider within the context of SectionProvider.");
-  }
-  return context;
 };
