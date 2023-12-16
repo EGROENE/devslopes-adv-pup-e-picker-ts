@@ -94,17 +94,7 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
       .catch((error) => console.log(error));
   };
 
-  const sectionContextValues: {
-    allDogs: Dog[];
-    isLoading: boolean;
-    setIsLoading: Dispatch<SetStateAction<boolean>>;
-    activeTab: Tab;
-    setActiveTab: Dispatch<SetStateAction<Tab>>;
-    createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
-    toggleFavoriteAction: (dog: Dog) => void;
-    deleteDogAction: (dog: Dog) => void;
-    refetchDogs: () => void;
-  } = {
+  const sectionContextValues: TSectionContext = {
     allDogs,
     isLoading,
     setIsLoading,
