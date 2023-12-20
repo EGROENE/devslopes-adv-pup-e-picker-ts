@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { TMainContentContext, MainContentContext } from "./mainContentProvider";
+import { MainContentContext } from "./mainContentProvider";
+import { TMainContentContext } from "./types";
 
 export const useMainContentContext = () => {
   const context = useContext<TMainContentContext | null>(MainContentContext);

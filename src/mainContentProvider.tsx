@@ -1,26 +1,7 @@
-import {
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-  useState,
-  useEffect,
-  createContext,
-} from "react";
-import { Dog, Tab } from "./types";
+import { ReactNode, useState, useEffect, createContext } from "react";
+import { Dog, Tab, TMainContentContext } from "./types";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
-
-export type TMainContentContext = {
-  allDogs: Dog[];
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  activeTab: Tab;
-  setActiveTab: Dispatch<SetStateAction<Tab>>;
-  createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
-  toggleFavoriteAction: (dog: Dog) => void;
-  deleteDogAction: (dog: Dog) => void;
-  refetchDogs: () => Promise<void>;
-};
 
 export const MainContentContext = createContext<TMainContentContext | null>(null);
 
