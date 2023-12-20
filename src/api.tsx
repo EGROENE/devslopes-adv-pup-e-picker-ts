@@ -1,15 +1,15 @@
-import { Dog } from "./types";
+import { TDog } from "./types";
 
 const serverURL = "http://localhost:3000/dogs";
 
-const getAllDogs = (): Promise<Dog[]> => {
+const getAllDogs = (): Promise<TDog[]> => {
   return fetch(serverURL, {
     method: "GET",
     redirect: "follow",
-  }).then((response) => response.json() as Promise<Dog[]>);
+  }).then((response) => response.json() as Promise<TDog[]>);
 };
 
-const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<Response> => {
+const postDog = (newDogCharacteristics: Omit<TDog, "id">): Promise<Response> => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -40,7 +40,7 @@ const deleteDogRequest = (id: number): Promise<Response> => {
 };
 
 const patchFavoriteForDog = (
-  dog: Dog,
+  dog: TDog,
   raw: { isFavorite: boolean }
 ): Promise<Response> => {
   const myHeaders = new Headers();

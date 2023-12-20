@@ -9,18 +9,18 @@ export const dogSchema = z.object({
   isFavorite: z.boolean(),
 });
 
-export type Dog = z.infer<typeof dogSchema>;
+export type TDog = z.infer<typeof dogSchema>;
 
 export type TMainContentContext = {
-  allDogs: Dog[];
+  allDogs: TDog[];
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  activeTab: Tab;
-  setActiveTab: Dispatch<SetStateAction<Tab>>;
-  createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
-  toggleFavoriteAction: (dog: Dog) => void;
-  deleteDogAction: (dog: Dog) => void;
+  activeTab: TTab;
+  setActiveTab: Dispatch<SetStateAction<TTab>>;
+  createNewDog: (newDogCharacteristics: Omit<TDog, "id">) => Promise<Response>;
+  toggleFavoriteAction: (dog: TDog) => void;
+  deleteDogAction: (dog: TDog) => void;
   refetchDogs: () => Promise<void>;
 };
 
-export type Tab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "no-dogs";
+export type TTab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "no-dogs";

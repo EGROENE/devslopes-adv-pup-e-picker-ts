@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Dog } from "../types";
+import { TDog } from "../types";
 import { useMainContentContext } from "../useMainContentContext";
 
 export const Section = ({
@@ -12,7 +12,7 @@ export const Section = ({
 }) => {
   const { allDogs, activeTab, setActiveTab } = useMainContentContext();
 
-  const favsCount: number = allDogs.filter((dog: Dog) => dog.isFavorite === true).length;
+  const favsCount: number = allDogs.filter((dog: TDog) => dog.isFavorite === true).length;
 
   const unfavsCount: number = allDogs.filter((dog) => dog.isFavorite !== true).length;
 

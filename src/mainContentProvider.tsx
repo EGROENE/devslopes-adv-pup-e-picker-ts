@@ -1,18 +1,18 @@
 import { ReactNode, useState, useEffect, createContext } from "react";
-import { Dog, Tab, TMainContentContext } from "./types";
+import { TDog, TTab, TMainContentContext } from "./types";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
 
 export const MainContentContext = createContext<TMainContentContext | null>(null);
 
 export const MainContentProvider = ({ children }: { children: ReactNode }) => {
-  const [allDogs, setAllDogs] = useState<Dog[]>([]);
+  const [allDogs, setAllDogs] = useState<TDog[]>([]);
 
   // state & setter to MainContentContextValues
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // setter to MainContentContextValues
-  const [activeTab, setActiveTab] = useState<Tab>("all-dogs");
+  const [activeTab, setActiveTab] = useState<TTab>("all-dogs");
 
   useEffect(() => {
     Requests.getAllDogs()
@@ -25,11 +25,11 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)
-  const createNewDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<Response> => {
+  const createNewDog = (newDogCharacteristics: Omit<TDog, "id">): Promise<Response> => {
     return Requests.postDog(newDogCharacteristics);
   };
 
-  const toggleFavoriteAction = (dog: Dog): void => {
+  const toggleFavoriteAction = (dog: TDog): void => {
     const newIsFavoriteValue: boolean = !dog.isFavorite ? true : false;
 
     // Set local state allDogs to array, changing only the isFavorite value of the selected dog:
@@ -59,7 +59,7 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
       .catch((error) => console.log(error));
   };
 
-  const deleteDogAction = (dog: Dog): void => {
+  const deleteDogAction = (dog: TDog): void => {
     setAllDogs(allDogs.filter((dogInAllDogsArr) => dog.id !== dogInAllDogsArr.id));
 
     Requests.deleteDogRequest(dog.id)

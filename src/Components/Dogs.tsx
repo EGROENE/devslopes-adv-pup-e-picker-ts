@@ -1,7 +1,7 @@
 // Right now these dogs are constant, but in reality we should be getting these from our server
 // Todo: Refactor to get rid of props (THERE SHOULD BE NO PROPS DRILLING ON THIS COMPONENT)
 import { DogCard } from "./DogCard";
-import { Dog } from "../types";
+import { TDog } from "../types";
 import { useMainContentContext } from "../useMainContentContext";
 
 export const Dogs = () =>
@@ -20,7 +20,7 @@ export const Dogs = () =>
 
     return (
       <>
-        {displayedDogs.map((dog: Dog) => (
+        {displayedDogs.map((dog: TDog) => (
           <DogCard
             key={dog.id}
             dog={{
