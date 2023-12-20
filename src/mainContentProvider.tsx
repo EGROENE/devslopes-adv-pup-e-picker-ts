@@ -19,7 +19,7 @@ export type TMainContentContext = {
   createNewDog: (newDogCharacteristics: Omit<Dog, "id">) => Promise<Response>;
   toggleFavoriteAction: (dog: Dog) => void;
   deleteDogAction: (dog: Dog) => void;
-  refetchDogs: () => void;
+  refetchDogs: () => Promise<void>;
 };
 
 export const MainContentContext = createContext<TMainContentContext | null>(null);
@@ -39,10 +39,8 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const refetchDogs = (): void => {
-    Requests.getAllDogs()
-      .then(setAllDogs)
-      .catch((error) => console.log(error));
+  const refetchDogs = (): Promise<void> => {
+    return Requests.getAllDogs().then(setAllDogs);
   };
 
   // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)

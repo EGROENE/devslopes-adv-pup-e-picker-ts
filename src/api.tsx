@@ -2,13 +2,11 @@ import { Dog } from "./types";
 
 const serverURL = "http://localhost:3000/dogs";
 
-const getAllDogs = (): Promise<unknown> => {
+const getAllDogs = (): Promise<Dog[]> => {
   return fetch(serverURL, {
     method: "GET",
     redirect: "follow",
-  })
-    .then((response) => response.json())
-    .catch((error) => console.log("error", error));
+  }).then((response) => response.json() as Promise<Dog[]>);
 };
 
 const postDog = (newDogCharacteristics: Omit<Dog, "id">): Promise<Response> => {
