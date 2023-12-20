@@ -1,10 +1,10 @@
 import { Section } from "./Components/Section";
 import { Dogs } from "./Components/Dogs";
 import { CreateDogForm } from "./Components/CreateDogForm";
-import { useSectionContext } from "./useSectionContext";
+import { useMainContentContext } from "./useMainContentContext";
 
 export function App() {
-  const { activeTab } = useSectionContext();
+  const { activeTab } = useMainContentContext();
   return (
     <div className="App" style={{ backgroundColor: "skyblue" }}>
       <header>

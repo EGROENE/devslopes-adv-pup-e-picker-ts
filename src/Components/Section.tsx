@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Dog } from "../types";
-import { useSectionContext } from "../useSectionContext";
+import { useMainContentContext } from "../useMainContentContext";
 
 export const Section = ({
   label,
@@ -10,7 +10,7 @@ export const Section = ({
   label: string;
   children: ReactNode;
 }) => {
-  const { allDogs, activeTab, setActiveTab } = useSectionContext();
+  const { allDogs, activeTab, setActiveTab } = useMainContentContext();
 
   const favsCount: number = allDogs.filter((dog: Dog) => dog.isFavorite === true).length;
 

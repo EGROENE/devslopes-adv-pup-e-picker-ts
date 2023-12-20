@@ -10,7 +10,7 @@ import { Dog, Tab } from "./types";
 import { Requests } from "./api";
 import toast from "react-hot-toast";
 
-export type TSectionContext = {
+export type TMainContentContext = {
   allDogs: Dog[];
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -22,15 +22,15 @@ export type TSectionContext = {
   refetchDogs: () => void;
 };
 
-export const SectionContext = createContext<TSectionContext | null>(null);
+export const MainContentContext = createContext<TMainContentContext | null>(null);
 
-export const SectionProvider = ({ children }: { children: ReactNode }) => {
+export const MainContentProvider = ({ children }: { children: ReactNode }) => {
   const [allDogs, setAllDogs] = useState<Dog[]>([]);
 
-  // state & setter to sectionContextValues
+  // state & setter to MainContentContextValues
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // setter to sectionContextValues
+  // setter to MainContentContextValues
   const [activeTab, setActiveTab] = useState<Tab>("all-dogs");
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
       .catch((error) => console.log(error));
   };
 
-  const sectionContextValues: TSectionContext = {
+  const MainContentContextValues: TMainContentContext = {
     allDogs,
     isLoading,
     setIsLoading,
@@ -107,8 +107,8 @@ export const SectionProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <SectionContext.Provider value={sectionContextValues}>
+    <MainContentContext.Provider value={MainContentContextValues}>
       {children}
-    </SectionContext.Provider>
+    </MainContentContext.Provider>
   );
 };
