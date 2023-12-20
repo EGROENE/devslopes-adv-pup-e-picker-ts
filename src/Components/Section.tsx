@@ -12,9 +12,9 @@ export const Section = ({
 }) => {
   const { allDogs, activeTab, setActiveTab } = useMainContentContext();
 
-  const favsCount: number = allDogs.filter((dog: TDog) => dog.isFavorite === true).length;
+  const favsCount: number = allDogs.filter((dog: TDog) => dog.isFavorite).length;
 
-  const unfavsCount: number = allDogs.filter((dog) => dog.isFavorite !== true).length;
+  const unfavsCount: number = allDogs.filter((dog: TDog) => !dog.isFavorite).length;
 
   return (
     <section id="main-section">
