@@ -48,12 +48,12 @@ export const Section = ({
             unfavorited ( {unfavsCount} )
           </div>
           <div
-            className={activeTab === "no-dogs" ? "selector active" : "selector"}
+            className={activeTab === "create-dog-form" ? "selector active" : "selector"}
             onClick={() => {
-              if (activeTab === "no-dogs") {
+              if (activeTab === "create-dog-form") {
                 setActiveTab("all-dogs");
               } else {
-                setActiveTab("no-dogs");
+                setActiveTab("create-dog-form");
               }
             }}
           >

@@ -23,4 +23,4 @@ export type TMainContentContext = {
   refetchDogs: () => Promise<void>;
 };
 
-export type TTab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "no-dogs";
+export type TTab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "create-dog-form";
