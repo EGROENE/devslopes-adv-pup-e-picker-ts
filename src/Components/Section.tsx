@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { TDog, TTab } from "../types";
+import { TDog } from "../types";
 import { useMainContentContext } from "../useMainContentContext";
 
 export const Section = ({
@@ -10,25 +10,11 @@ export const Section = ({
   label: string;
   children: ReactNode;
 }) => {
-  const { allDogs, activeTab, setActiveTab } = useMainContentContext();
+  const { allDogs, activeTab, toggleTabs } = useMainContentContext();
 
   const favsCount: number = allDogs.filter((dog: TDog) => dog.isFavorite).length;
 
   const unfavsCount: number = allDogs.filter((dog: TDog) => !dog.isFavorite).length;
-
-  const toggleTabs = (tab: TTab): void => {
-    if (tab === "fav-dogs") {
-      activeTab === "fav-dogs" ? setActiveTab("all-dogs") : setActiveTab("fav-dogs");
-    }
-    if (tab === "unfav-dogs") {
-      activeTab === "unfav-dogs" ? setActiveTab("all-dogs") : setActiveTab("unfav-dogs");
-    }
-    if (tab === "create-dog-form") {
-      activeTab === "create-dog-form"
-        ? setActiveTab("all-dogs")
-        : setActiveTab("create-dog-form");
-    }
-  };
 
   return (
     <section id="main-section">

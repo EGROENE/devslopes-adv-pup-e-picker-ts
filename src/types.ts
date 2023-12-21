@@ -21,6 +21,7 @@ export type TMainContentContext = {
   toggleFavoriteAction: (dog: TDog) => void;
   deleteDogAction: (dog: TDog) => void;
   refetchDogs: () => Promise<void>;
+  toggleTabs: (tab: TTab) => void;
 };
 
 export type TTab = "all-dogs" | "fav-dogs" | "unfav-dogs" | "create-dog-form";

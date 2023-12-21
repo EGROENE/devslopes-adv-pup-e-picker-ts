@@ -73,6 +73,20 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
       .catch((error) => console.log(error));
   };
 
+  const toggleTabs = (tab: TTab): void => {
+    if (tab === "fav-dogs") {
+      activeTab === "fav-dogs" ? setActiveTab("all-dogs") : setActiveTab("fav-dogs");
+    }
+    if (tab === "unfav-dogs") {
+      activeTab === "unfav-dogs" ? setActiveTab("all-dogs") : setActiveTab("unfav-dogs");
+    }
+    if (tab === "create-dog-form") {
+      activeTab === "create-dog-form"
+        ? setActiveTab("all-dogs")
+        : setActiveTab("create-dog-form");
+    }
+  };
+
   const MainContentContextValues: TMainContentContext = {
     allDogs,
     isLoading,
@@ -83,6 +97,7 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
     toggleFavoriteAction,
     deleteDogAction,
     refetchDogs,
+    toggleTabs,
   };
 
   return (
