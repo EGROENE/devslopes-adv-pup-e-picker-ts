@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { TDog } from "../types";
+import { TDog, TTab } from "../types";
 import { useMainContentContext } from "../useMainContentContext";
 
 export const Section = ({
@@ -16,6 +16,20 @@ export const Section = ({
 
   const unfavsCount: number = allDogs.filter((dog: TDog) => !dog.isFavorite).length;
 
+  const toggleTabs = (tab: TTab): void => {
+    if (tab === "fav-dogs") {
+      activeTab === "fav-dogs" ? setActiveTab("all-dogs") : setActiveTab("fav-dogs");
+    }
+    if (tab === "unfav-dogs") {
+      activeTab === "unfav-dogs" ? setActiveTab("all-dogs") : setActiveTab("unfav-dogs");
+    }
+    if (tab === "create-dog-form") {
+      activeTab === "create-dog-form"
+        ? setActiveTab("all-dogs")
+        : setActiveTab("create-dog-form");
+    }
+  };
+
   return (
     <section id="main-section">
       <div className="container-header">
@@ -23,39 +37,19 @@ export const Section = ({
         <div className="selectors">
           <div
             className={activeTab === "fav-dogs" ? "selector active" : "selector"}
-            onClick={() => {
-              if (activeTab === "fav-dogs") {
-                setActiveTab("all-dogs");
-              } else {
-                setActiveTab("fav-dogs");
-              }
-            }}
+            onClick={() => toggleTabs("fav-dogs")}
           >
             favorited ( {favsCount} )
           </div>
-
-          {/* This should display the unfavorited count */}
           <div
             className={activeTab === "unfav-dogs" ? "selector active" : "selector"}
-            onClick={() => {
-              if (activeTab === "unfav-dogs") {
-                setActiveTab("all-dogs");
-              } else {
-                setActiveTab("unfav-dogs");
-              }
-            }}
+            onClick={() => toggleTabs("unfav-dogs")}
           >
             unfavorited ( {unfavsCount} )
           </div>
           <div
             className={activeTab === "create-dog-form" ? "selector active" : "selector"}
-            onClick={() => {
-              if (activeTab === "create-dog-form") {
-                setActiveTab("all-dogs");
-              } else {
-                setActiveTab("create-dog-form");
-              }
-            }}
+            onClick={() => toggleTabs("create-dog-form")}
           >
             create dog
           </div>
