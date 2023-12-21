@@ -45,7 +45,7 @@ export const CreateDogForm = () =>
               if (!response.ok) {
                 toast.error("Couldn't create dog. Please try again.");
               } else {
-                refetchDogs();
+                refetchDogs().catch((error) => console.log(error)); // added .catch() here to please the TS gods
                 toast.success(`${newDogCharacteristics.name} created!`);
                 resetForm();
               }
