@@ -23,6 +23,7 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
   const refetchDogs = (): Promise<void> => Requests.getAllDogs().then(setAllDogs);
 
   // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)
+  // Actions should contain certain HTTP method, along with other necessary functionality
   const createNewDog = (newDogCharacteristics: Omit<TDog, "id">): Promise<Response> => {
     setIsLoading(true); // Best to handle this inside action method, defined here in Provider
     return Requests.postDog(newDogCharacteristics).finally(() => setIsLoading(false));

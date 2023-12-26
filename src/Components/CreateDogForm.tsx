@@ -38,7 +38,9 @@ export const CreateDogForm = () =>
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
+          // Call action (which should return a Promise<Response> from API method) to add dog to DB:
           createNewDog(newDogCharacteristics)
+            // If action succeeds...
             .then(() => {
               toast.success(`${newDogName} created!`);
               resetForm();
@@ -46,6 +48,7 @@ export const CreateDogForm = () =>
               // .catch() added so as not to piss off the TS gods
               refetchDogs().catch((error) => console.log(error));
             })
+            // If action fails...
             .catch((error) => {
               toast.error(`Could not create ${newDogName}`);
               console.log(error);
