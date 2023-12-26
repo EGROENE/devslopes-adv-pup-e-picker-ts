@@ -26,6 +26,11 @@ const postDog = (newDogCharacteristics: Omit<TDog, "id">): Promise<Response> => 
     headers: myHeaders,
     body: raw,
     redirect: "follow",
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Could not create dog.");
+    }
+    return response;
   });
 };
 const deleteDogRequest = (id: number): Promise<Response> => {

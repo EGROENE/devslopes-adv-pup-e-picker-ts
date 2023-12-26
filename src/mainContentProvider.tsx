@@ -20,17 +20,16 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const refetchDogs = (): Promise<void> => {
-    return Requests.getAllDogs().then(setAllDogs);
-  };
+  const refetchDogs = (): Promise<void> => Requests.getAllDogs().then(setAllDogs);
 
   // ACTIONS (for creating new dog, adding/removing from favs, deleting from database)
   const createNewDog = (newDogCharacteristics: Omit<TDog, "id">): Promise<Response> => {
-    return Requests.postDog(newDogCharacteristics);
+    setIsLoading(true); // Best to handle this inside action method, defined here in Provider
+    return Requests.postDog(newDogCharacteristics).finally(() => setIsLoading(false));
   };
 
   const toggleFavoriteAction = (dog: TDog): void => {
-    const newIsFavoriteValue: boolean = !dog.isFavorite ? true : false;
+    const newIsFavoriteValue = !dog.isFavorite;
 
     // Set local state allDogs to array, changing only the isFavorite value of the selected dog:
     setAllDogs(
@@ -48,12 +47,10 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
         if (!response.ok) {
           setAllDogs(allDogs); // Why is allDogs here equal to original form, not what is set above in this function?
           toast.error(
-            newIsFavoriteValue === true
+            newIsFavoriteValue
               ? "Could not add to favorites. Please try again."
               : "Could not remove from favorites. Please try again."
           );
-        } else {
-          return; // What's the point of return here?
         }
       })
       .catch((error) => console.log(error));
@@ -73,19 +70,8 @@ export const MainContentProvider = ({ children }: { children: ReactNode }) => {
       .catch((error) => console.log(error));
   };
 
-  const toggleTabs = (tab: TTab): void => {
-    if (tab === "fav-dogs") {
-      activeTab === "fav-dogs" ? setActiveTab("all-dogs") : setActiveTab("fav-dogs");
-    }
-    if (tab === "unfav-dogs") {
-      activeTab === "unfav-dogs" ? setActiveTab("all-dogs") : setActiveTab("unfav-dogs");
-    }
-    if (tab === "create-dog-form") {
-      activeTab === "create-dog-form"
-        ? setActiveTab("all-dogs")
-        : setActiveTab("create-dog-form");
-    }
-  };
+  const toggleTabs = (tab: TTab): void =>
+    activeTab === tab ? setActiveTab("all-dogs") : setActiveTab(tab);
 
   const MainContentContextValues: TMainContentContext = {
     allDogs,

@@ -6,8 +6,7 @@ import { useMainContentContext } from "../useMainContentContext";
 export const CreateDogForm = () =>
   // no props allowed
   {
-    const { isLoading, setIsLoading, createNewDog, refetchDogs } =
-      useMainContentContext();
+    const { isLoading, createNewDog, refetchDogs } = useMainContentContext();
 
     const defaultImage = dogPictures.BlueHeeler;
 
@@ -39,19 +38,18 @@ export const CreateDogForm = () =>
         id="create-dog-form"
         onSubmit={(e) => {
           e.preventDefault();
-          setIsLoading(true);
           createNewDog(newDogCharacteristics)
-            .then((response) => {
-              if (!response.ok) {
-                toast.error("Couldn't create dog. Please try again.");
-              } else {
-                refetchDogs().catch((error) => console.log(error)); // added .catch() here to please the TS gods
-                toast.success(`${newDogCharacteristics.name} created!`);
-                resetForm();
-              }
+            .then(() => {
+              toast.success(`${newDogName} created!`);
+              resetForm();
+              // refetchDogs() should be here; otherwise, newly created dog won't appear
+              // .catch() added so as not to piss off the TS gods
+              refetchDogs().catch((error) => console.log(error));
             })
-            .catch((error) => console.log(error))
-            .finally(() => setIsLoading(false));
+            .catch((error) => {
+              toast.error(`Could not create ${newDogName}`);
+              console.log(error);
+            });
         }}
       >
         <h4>Create a New Dog</h4>
